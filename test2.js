@@ -14,7 +14,7 @@ function readExcel(filePath, fileName) {
     const workbook = XLSX.readFile(filePath);
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(worksheet).map(item => ({ ...item, "表格名字": fileName }));
+    const data = XLSX.utils.sheet_to_json(worksheet).map(item => ({ ...item, "来源": fileName }));
 
     return data;
 }
@@ -44,7 +44,7 @@ function checkTranslateContent(item) {
     }
     const translateStr = String(item.Translate);
 
-    let blackWorld = ''; // 记录包含的黑名单词汇
+    let blackWord = ''; // 记录包含的黑名单词汇
 
     for (let black of blackList) {
         if (translateStr.includes(black)) {
@@ -57,20 +57,20 @@ function checkTranslateContent(item) {
                 }
             }
             if (!containsWhite) {
-                blackWorld += black + ', '; // 记录黑名单词汇
+                blackWord += black + ', '; // 记录黑名单词汇
             }
         }
     }
 
-    if (blackWorld) {
-        blackWorld = blackWorld.slice(0, -2); // 去掉最后一个逗号和空格
-        return { ...item, blackWorld }; // 包含黑名单内容但不包含白名单内容
+    if (blackWord) {
+        blackWord = blackWord.slice(0, -2); // 去掉最后一个逗号和空格
+        return { ...item, blackWord }; // 包含黑名单内容但不包含白名单内容
     }
 
     return null; // 不包含黑名单内容或者也包含了白名单内容
 }
 
-// 过滤数据并添加 blackWorld 字段
+// 过滤数据并添加 blackWord 字段
 const result = combinedData.reduce((acc, item) => {
     const newItem = checkTranslateContent(item);
     if (newItem !== null) {
