@@ -1,5 +1,4 @@
 const XLSX = require('xlsx');
-const Printer = require('console-table-printer').Printer;
 
 const Mappath = '266.国内文本关卡配置表@MapTranslationConfiguration.xlsx';
 const Totalpath = '266.国内文本配置表@TotalTranslationConfiguration.xlsx';
@@ -10,25 +9,25 @@ const Battlepath = '266.国内文本战斗配置表@BattleTranslationConfigurati
 const blackListPath = 'blackList.xlsx';
 const whiteListPath = 'whiteList.xlsx';
 
-// 读取 Excel 文件
-function readExcel(filePath) {
+// 读取 Excel 文件并记录文件名
+function readExcel(filePath, fileName) {
     const workbook = XLSX.readFile(filePath);
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(worksheet);
+    const data = XLSX.utils.sheet_to_json(worksheet).map(item => ({ ...item, "表格名字": fileName }));
 
     return data;
 }
 
-// 读取七个 Excel 文件
-const MapData = readExcel(Mappath);
-const TotalData = readExcel(Totalpath);
-const SystemData = readExcel(Systempath);
-const OpsData = readExcel(Opspath);
-const BattleData = readExcel(Battlepath);
+// 读取七个 Excel 文件并记录文件名
+const MapData = readExcel(Mappath, "MapTranslationConfiguration");
+const TotalData = readExcel(Totalpath, "TotalTranslationConfiguration");
+const SystemData = readExcel(Systempath, "SystemTranslationConfiguration");
+const OpsData = readExcel(Opspath, "OpsEvenTranslationConfiguration");
+const BattleData = readExcel(Battlepath, "BattleTranslationConfiguration");
 
-const blackListData = readExcel(blackListPath);
-const whiteListData = readExcel(whiteListPath);
+const blackListData = readExcel(blackListPath, "BlackList");
+const whiteListData = readExcel(whiteListPath, "WhiteList");
 
 // 合并数据
 const combinedData = [...MapData, ...TotalData, ...SystemData, ...OpsData, ...BattleData];
@@ -80,7 +79,7 @@ const result = combinedData.reduce((acc, item) => {
     return acc;
 }, []);
 
-console.log(result,'result');
+console.log(result, 'result');
 
 // 将 JSON 数据转换为工作表
 const worksheet = XLSX.utils.json_to_sheet(result);
