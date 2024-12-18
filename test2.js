@@ -6,8 +6,8 @@ const Systempath = '266.国内文本系统配置表@SystemTranslationConfigurati
 const Opspath = '266.国内文本运营配置表@OpsEvenTranslationConfiguration.xlsx';
 const Battlepath = '266.国内文本战斗配置表@BattleTranslationConfiguration.xlsx';
 
-const blackListPath = 'blackList.xlsx';
-const whiteListPath = 'whiteList.xlsx';
+const blackListPath = './TranslateDiff/blackList.xlsx';
+const whiteListPath = './TranslateDiff/whiteList.xlsx';
 
 // 读取 Excel 文件并记录文件名
 function readExcel(filePath, fileName) {
