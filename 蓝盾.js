@@ -12,7 +12,7 @@ const blackListPath = '/data/landun/workspace/PMGameClient/Tables/TranslateDiff/
 const whiteListPath = '/data/landun/workspace/PMGameClient/Tables/TranslateDiff/whiteList.xlsx';
 
 // 输出文件路径
-const outputPath = '/data/landun/workspace/PMGameClient/Tables/TranslateDiff/MainlandTrunksensitiveResults241218.xlsx';
+const outputPath = '/data/landun/workspace/PMGameClient/Tables/TranslateDiff/MainlandTrunksensitiveResults.xlsx';
 const outputDir = path.dirname(outputPath);
 
 // 确保输出目录存在
